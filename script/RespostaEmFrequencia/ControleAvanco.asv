@@ -1,0 +1,42 @@
+function C = ControleAvanco(G,Pm,Tp)
+
+[z,p,k] = zpkdata(G);
+raizes = cell2mat(z);
+polos = cell2mat(p);
+
+fprintf("Determinando os valores de G\n");
+fprintf("k = %d\n",k);
+fprintf("raizes = %s\n",mat2str(raizes));
+fprintf("polos = %s\n\n",mat2str(polos));
+
+j = sqrt(-1);
+nroot = size(raizes,1);
+npoles = size(polos,1);
+K = 1;
+%Calculando csi e wn
+wc  = pi/(Tp*sqrt(1-xi^2));
+fprintf("Calculando o wc = %f\n",wc);
+[m,p] = margin(G);
+PMa = 180+p;
+fprintf("Tem Av = Pmd-Pma\n")
+Av = PMd-PMa; %Av = PMd-180-p
+fprintf("Av = %f\n",Av);
+xi = 0;
+if Av<0
+    xi = 5/100;
+end
+
+[m,p] = margin(G,);
+PMa = 180+p;
+fprintf("Tem Av = Pmd-Pma\n")
+Av = PMd-PMa; %Av = PMd-180-p
+fprintf("Av = %f\n",Av);
+
+alfa = (1-sind(Av))/(1+sind(Av));
+
+fprintf("alfa = (1-sind(Av))/(1+sind(Av))\n")
+fprintf("xi = %f;alfa = %f\n",xi,alfa)
+fprintf("Cav = (1/(m*sqrt(alfa)))*(s+wc*sqrt(alfa))/(s+wc/sqrt(alfa))\n")
+C=zpk([-sqrt(alfa)*wc],[-wc/sqrt(alfa)],[1/m/sqrt(alfa)]);
+
+end
