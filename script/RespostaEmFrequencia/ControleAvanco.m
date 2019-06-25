@@ -14,8 +14,14 @@ j = sqrt(-1);
 xi = PMd/100;
 wc  = pi/(Tp*sqrt(1-xi^2));
 fprintf("Calculando o wc = %f\n",wc);
-[m,p] = margin(G,[wc]);
+%[m,p] = margin(G,wc);
+valG = evalfr(G,wc*j);
+m = abs(valG);
+p = phase(valG)*180/pi;
+fprintf("m = |G(wc*j)| = %f\np = <G(wc*j)=%f",m,p);
+fprintf("PMa = 180+<G(wc*j)-phase(k)= 180+(%f)-phase(%f) = ",p,k);
 PMa = 180+p-phase(k)*180/pi;
+fprintf("PMa = %f",PMa);
 fprintf("Tem Av = Pmd-Pma = %f - %f\n",PMd,PMa);
 Av = PMd-PMa; %Av = PMd-180-p
 fprintf("Av = %f\n",Av);
